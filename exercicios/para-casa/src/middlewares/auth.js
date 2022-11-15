@@ -3,17 +3,17 @@ const jwt = require('jsonwebtoken');
 const SECRET = process.env.SECRET;
 
 // Execute esse codigo
-// (req) Faca alteracoes na solicitacao e nos objetos de resposta
-// (res) Encerrar o ciclo de solicitacao-resposta
+// (request) Faca alteracoes na solicitacao e nos objetos de resposta
+// (response) Encerrar o ciclo de solicitacao-resposta
 // (next) Chama o proximo middleware na fila OUUUUU NESSE CASO chame o controllerrrrr
 
 // quero checar a autorizacao do usuario
-exports.checkAuth = (req, res, next) => {
+exports.checkAuth = (request, response, next) => {
 
-    const authHeader = req.get('authorization');
+    const authHeader = request.get('authorization');
     if (!authHeader) {
-        return res.status(401).send({
-            message: 'Sem autorizacao amore',
+        return response.status(401).send({
+            message: 'Não autorizado!',
             statusCode: 401
         });
     }
@@ -22,7 +22,7 @@ exports.checkAuth = (req, res, next) => {
     console.log("tokenzinhooo", token)
 
     if (!token) {
-        return res.status(401).send({
+        return response.status(401).send({
             message: "erro no token ok?"
         })
     }
@@ -30,8 +30,8 @@ exports.checkAuth = (req, res, next) => {
     try {
         jwt.verify(token, SECRET, (err) => {
             if (err) {
-                return res.status(401).send({
-                    message: "Nao autorizada, mami"
+                return response.status(401).send({
+                    message: "Nao autorizada!"
                 })
             }
             next();

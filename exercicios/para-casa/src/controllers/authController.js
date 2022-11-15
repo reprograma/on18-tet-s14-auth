@@ -1,14 +1,15 @@
-const UserSchema = require('../models/userSchema');// importei o model
-const bcrypt =  require ('bcrypt')// importei o bcrypt para 
-const jwt = require ('jsonwebtoken')//importei o jwt para gerar o token
+const UserSchema = require('../models/UserSchema');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
- const SECRET = process.env.SECRET //importei para ser usada pelo jwt na gera
+const SECRET = process.env.SECRET;
 
- const login = (req, res) => {
+const login = (req, res) => {
     try {
         
         UserSchema.findOne({ email: req.body.email }, (error, user) => {
-            console.log("USUARIO EH ESSE AKI", user)
+            console.log("Esse é o usuário:", user)
+            
             if(!user) {
                 return res.status(404).send({
                     message: 'Usuário não encontrado',
@@ -16,25 +17,21 @@ const jwt = require ('jsonwebtoken')//importei o jwt para gerar o token
                 });
             }
             
-            // quando eu chego aqui eu tenho um usuario que foi enviado no body da requisicao e um usuario no banco com o MESMO email
-            // eu preciso saber se as senhas deles tambem sao iguais
-            
             const validPassword = bcrypt.compareSync(req.body.password, user.password)
-            console.log("A SENHA EH VALIDA AMOR?", validPassword)
             
             if(!validPassword){
                 return res.status(401).send({
-                message: "Amor, sua senha esta invalida",
+                message: "Senha inválida.",
                 statusCode: 401
                 })
             }
             
             // jwt.sign(nome do usuário, SEGREDO)
             const token = jwt.sign({name: user.name}, SECRET);
-            console.log("O TOKEN EH ESSE AKI", token)
+            console.log("O token é esse:", token)
             
             res.status(200).send({
-                message: "Amor, vc esta logadah",
+                message: "Login efetuado com sucesso!",
                 token
             })
         })
