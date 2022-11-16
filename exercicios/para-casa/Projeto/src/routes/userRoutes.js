@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-// depois voltamos para a fase das rotas
+
 const controller = require("../controllers/userController");
 const authController = require("../controllers/authController");
 
