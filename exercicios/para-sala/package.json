@@ -1,7 +1,7 @@
 {
   "name": "projeto-auth-s14",
   "version": "1.0.0",
-  "description": "",
+  "description": "- Explicação do exercício: Bora adicionar segurança nessa rota? Nesse exercicio criaremos rotas de login e criaçao de usuárias para que assim apenas usuárias autorizadas consigam acessar nossa rota _GET_.\r ---",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
