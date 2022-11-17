@@ -1,5 +1,6 @@
 const UserSchema = require("../models/userSchema");
-
+const bcrypt = require ('bcrypt')
+const jwt = require ('jsonwebtoken')
 const getAll = async (req, res) => {
   UserSchema.find(function (err, users) {
     if(err) {
@@ -9,6 +10,37 @@ const getAll = async (req, res) => {
   }) 
 };
 
+const createUser = async (req, res)=> {
+  const hashedPassword = bcrypt.hashSync (req.body.password, 10)
+  req.body.password = hashedPassword
+
+  const emailExists = await UserSchema.exists({email: req.body.email})
+  
+  if (emailExists) {
+    return res.status(409).send({
+      message: 'Email já cadastrado, CONFLITOUUUU',
+    })
+  }
+
+  try {
+    const newUser = new UserSchema(req.body)
+
+    const savedUser = await newUser.save()
+
+    res.status(201).send({
+      message: 'Oiiiiii, seu user foi criado com mto sucesso lacrou',
+      savedUser,
+    })
+  } catch (err) {
+    console.error(err)
+    res.status(500).send({
+      message: err.message,
+    })
+  }
+
+}
+
 module.exports = {
-  getAll
+  getAll,
+  createUser
 };
