@@ -3,9 +3,9 @@
 ## Nome do Exercicio
 
 - Explicação do exercício: Devemos utilizar o projeto da aula anterior (S13), conforme fizemos em aula, e colocarmos uma rota para login e proteger as rotas necessárias, exigindo um token de autorização.
-- [ ] Deverá existir uma rota para criação de usuário;
-- [ ] Deverá existir uma rota de login;
-- [ ] Pelo menos duas rotas deverão exigir autenticação (preferencialmente rotas de DELETE ou PUT/PATCH)
+- [x] Deverá existir uma rota para criação de usuário;
+- [x] Deverá existir uma rota de login;
+- [x ] Pelo menos duas rotas deverão exigir autenticação (preferencialmente rotas de DELETE ou PUT/PATCH)
 
 
 Terminou o exercício? Dá uma olhada nessa checklist e confere se tá tudo certinho, combinado?!
