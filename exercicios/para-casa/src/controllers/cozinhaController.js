@@ -99,6 +99,8 @@ const criarCozinha = async (request, response) => {
 const atualizarCozinha = async (request, response) => {
 
     try {
+
+        
         CozinhaSchema.findByIdAndUpdate(request.params.id, request.body, function (err, cozinhaAtualizada) {
             if (err) {
                 response.status(500).send({
@@ -111,7 +113,7 @@ const atualizarCozinha = async (request, response) => {
             })
         })
     } catch (error) {
-        
+
         response.status(500).send({
             message: error.message
         })
