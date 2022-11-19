@@ -1,0 +1,54 @@
+
+@port = 8080
+@url = http://localhost:{{port}}/biblioteca
+
+// Invalid request below
+###
+POST {{url}}
+Content-Type: application/json
+
+{
+    "nome": "NomeRandom",
+    "cnpj": "sdjasdkadkads",
+    "telefone": "4002-8922",
+    "privada": false,
+    "endereco": {
+        "rua": "Rua Sei la",
+        "numero": 1230,
+        "complemento": "Ao lado da 1328",
+        "estado": "SP",
+        "cidade": "São Paulo",
+        "bairro": "Liberdade"
+    },
+    "bairros": ["Bairro 1", "Bairro 2"],
+    "site": "https://wwww.site.com",
+    "atividades": ["Atividade 1", "Atividade 2"],
+    "responsavel": "Marisa"
+}
+
+###
+POST {{url}}
+Content-Type: application/json
+
+{
+    "nome": "NomeRandom",
+    "cnpj": "sdjasdkadkads",
+    "telefone": "4002-8922",
+    "privada": false,
+    "endereco": {
+        "cep": "083021199",
+        "rua": "Rua Sei la",
+        "numero": 1230,
+        "complemento": "Ao lado da 1328",
+        "estado": "SP",
+        "cidade": "São Paulo",
+        "bairro": "Liberdade"
+    },
+    "bairros": ["Bairro 1", "Bairro 2"],
+    "site": "https://wwww.site.com",
+    "atividades": ["Atividade 1", "Atividade 2"],
+    "responsavel": "Marisa"
+}
+
+###
+GET {{url}}
