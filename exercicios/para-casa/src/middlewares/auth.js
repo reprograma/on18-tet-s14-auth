@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 require("dotenv-safe").config();
 
-exports getAuth = (req, res, next) => {
+exports.getAuth = (req, res, next) => {
   const authHeader = req.get("authorization");
   if (!authHeader) {
     return res.status(401).send({
@@ -32,4 +32,3 @@ exports getAuth = (req, res, next) => {
     res.status(200).send(users);
   });
 };
-
