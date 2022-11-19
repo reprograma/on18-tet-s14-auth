@@ -5,27 +5,27 @@ const bcrypt = require('bcrypt');
 
 
 const criarUsuario = async (req, res) => {
-    const hashedPassword = bcrypt.hashSync(req.body.password, 10)
-    req.body.password = hashedPassword
+    const senhaHasheada = bcrypt.hashSync(req.body.password, 10)
+    req.body.password = senhaHasheada
 
-    const emailExists = await UserSchema.exists({
+    const verificaEmail = await UserSchema.exists({
         email: req.body.email
     })
 
-    if (emailExists) {
+    if (verificaEmail) {
         return res.status(409).send({
             message: 'Esse email já foi cadastrado!',
         })
     }
 
     try {
-        const newUser = new UserSchema(req.body)
+        const novoUsuario = new UserSchema(req.body)
 
-        const savedUser = await newUser.save()
+        const usuarioSalvo = await novoUsuario.save()
 
         res.status(201).send({
             message: 'Usuário cadastrado com sucesso!',
-            savedUser,
+            usuarioSalvo,
         })
     } catch (err) {
         console.error(err)
