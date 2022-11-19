@@ -58,4 +58,4 @@ const getAll = async (req, res) => {
   });
 };
 
-module.exports = { createUser, loginUser };
+module.exports = { createUser, loginUser, getAll };

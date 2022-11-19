@@ -25,10 +25,4 @@ exports.getAuth = (req, res, next) => {
   } catch (err) {
     return res.status(401).send({ message: err.message });
   }
-  User.userSchema.find(function (err, users) {
-    if (err) {
-      res.status(500).send({ message: err.message });
-    }
-    res.status(200).send(users);
-  });
 };
