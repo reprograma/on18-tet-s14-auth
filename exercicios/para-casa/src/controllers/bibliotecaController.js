@@ -180,7 +180,7 @@ const atualizarBiblioteca = async (request, response) => {
           bairros_atuantes, site, atividades_disponiveis, responsavel
       })
 
-      const bibliotecaAtualizada = await BibliotecaSchema.find({ id })
+      const bibliotecaAtualizada = await BibliotecaSchema.findOneAndUpdate({ id })
           if(bibliotecaAtualizada.length == 0 ) {
               response.status(404).json({
                   message:`Biblioteca não encontrada!`,
