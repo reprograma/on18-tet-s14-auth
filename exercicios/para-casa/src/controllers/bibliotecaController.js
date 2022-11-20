@@ -81,7 +81,8 @@ const criarBiblioteca = async(requisicao, resposta) => {
 
       const salvarBiblioteca = await biblioteca.save();
       resposta.status(201).json({
-          mensagem: "Biblioteca cadastrada com sucesso!"
+          mensagem: "Biblioteca cadastrada com sucesso!",
+          biblioteca: salvarBiblioteca
       })
 
   }catch(error){
@@ -182,14 +183,15 @@ const atualizarBiblioteca = async (request, response) => {
       const bibliotecaAtualizada = await BibliotecaSchema.find({ id })
           if(bibliotecaAtualizada.length == 0 ) {
               response.status(404).json({
-                  message:`Biblioteca não encontrada!`
+                  message:`Biblioteca não encontrada!`,
+                  biblioteca: bibliotecaEncontrada
               })
           }
-   
+          
       response.status(200).json(bibliotecaAtualizada)
 
  } catch (error){
-      response.status(400).json({
+      response.status(500).json({
           message: error.message
     })
  }
@@ -203,7 +205,10 @@ const deletarBiblioteca = async (req, res) => {
 
       await bibliotecas.delete()
 
-      res.status(200).send({ message: "Biblioteca deletada com sucesso!"})
+      res.status(200).send({ 
+        message: "Biblioteca deletada com sucesso!",
+        biblioteca: bibliotecas
+    })
 
       //ou 
       /* const { id } = req.params
