@@ -1,39 +1,35 @@
-const jwt = require("jsonwebtoken")
+const jwt = require('jsonwebtoken');
 
-const SECRET = process.env.SECRET
+const SECRET = process.env.SECRET;
 
-
-exports.checkAuth = (request, response, next) => {
-
-    const authHeader = request.get("authorization") 
-
-    if(!authHeader){
-        response.status(401).send({
-            message: "Sem autorização",
+exports.checkAuth = (req, res, next) => {
+    
+    const authHeader = req.get('authorization');
+    if (!authHeader) {
+        return res.status(401).send({
+            message: 'Sem autorização!',
             statusCode: 401
+        });
+    }
+    
+    const token = authHeader.split(' ')[1];
+    
+    if (!token) {
+        return res.status(401).send({
+            message: "Erro no token!"
         })
     }
-
-    const token = authHeader.split(" ")[1]
-
-    if(!token) {
-        return response.status(401).send({
-            message: "Sem autorização"
-        })
-    }
-
+    
     try {
         jwt.verify(token, SECRET, (err) => {
             if(err) {
-                return response.status(401).send({
-                    message: "Sem autorização"
-                })
+                return res.status(401).send({
+                    message: "Login não autorizado!"
+                })    
             }
-            next()
+            next();
         })
-    } catch (error) {
-        response.status(500).send({
-            message: error.message
-        })
+    } catch(err) {
+        console.error(err)
     }
 }

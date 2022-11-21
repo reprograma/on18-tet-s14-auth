@@ -1,7 +1,7 @@
 {
   "name": "para-casa",
   "version": "1.0.0",
-  "description": "- Explicação do exercício: Devemos utilizar o projeto da aula anterior (S13), conforme fizemos em aula, e colocarmos uma rota para login e proteger as rotas necessárias, exigindo um token de autorização.\r - [ ] Deverá existir uma rota para criação de usuário;\r - [ ] Deverá existir uma rota de login;\r - [ ] Pelo menos duas rotas deverão exigir autenticação (preferencialmente rotas de DELETE ou PUT/PATCH)",
+  "description": "- Explicação do exercício: Devemos utilizar o projeto da aula anterior (S13), conforme fizemos em aula, e colocarmos uma rota para login e proteger as rotas necessárias, exigindo um token de autorização.\r - [x] Deverá existir uma rota para criação de usuário;\r - [x] Deverá existir uma rota de login;\r - [x ] Pelo menos duas rotas deverão exigir autenticação (preferencialmente rotas de DELETE ou PUT/PATCH)",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

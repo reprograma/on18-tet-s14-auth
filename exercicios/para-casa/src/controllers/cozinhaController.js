@@ -1,73 +1,17 @@
 const CozinhaSchema = require("../models/cozinhaSchema")
-const bcrypt = require("bcrypt")
 
-
-const catalogoDeCozinhas = async (request, response) => {
-
-    try {
-
-        const cozinhas = await CozinhaSchema.find()
-        response.status(200).send(cozinhas)
-
-    } catch (error) {
-        response.status(500).send({
-            message: error.message
-        })
-    }
-}
 
 const criarCozinha = async (request, response) => {
 
-    const cozinhas = await CozinhaSchema.find()
-
-    let { nome, cnpj, email, senha, iniciativa_privada, endereco, estado, cidade, bairro, bairros_que_atuam, site, atividades_disponiveis, pessoa_responsavel } = request.body
-
-    if (!nome || nome.trim() === "") {
-        return response.status(400).send({
-            message: "Nome não foi preenchido"
-        })
-    }
-
-    if (!email || email.trim() === "") {
-        return response.status(400).send({
-            message: "Email não foi preenchido"
-        })
-    }
-
-    let hashedSenha = bcrypt.hashSync(senha, 10)
-    senha = hashedSenha
-
-
-    const verificaSeEmailExiste = await CozinhaSchema.exists({ email: email })
-    const verificaSeCnpjExiste = await CozinhaSchema.exists({ cnpj: cnpj })
-
-    if (verificaSeEmailExiste) {
-        return response.status(409).send({
-            message: "Esse email já existe!"
-        })
-    }
-
-    if (verificaSeCnpjExiste) {
-        return response.status(409).send({
-            message: "Esse CNPJ já está cadastrado"
-        })
-    }
-
-    for (const cozinha of cozinhas) {
-        if (cozinha.nome === nome && cozinha.bairro === bairro) {
-            return response.status(409).send({
-                message: "Já existe uma cozinha com este nome neste bairro!"
-            })
-        }
-    }
-
     try {
+        
+        const cozinhas = await CozinhaSchema.find()
+
+        const { nome, cnpj, iniciativa_privada, endereco, estado, cidade, bairro, bairros_que_atuam, site, atividades_disponiveis, pessoa_responsavel } = request.body
 
         const cozinhaNova = new CozinhaSchema({
             nome: nome,
             cnpj: cnpj,
-            email: email,
-            senha: senha,
             iniciativa_privada: iniciativa_privada,
             endereco: endereco,
             estado: estado,
@@ -79,16 +23,69 @@ const criarCozinha = async (request, response) => {
             pessoa_responsavel: pessoa_responsavel
         })
 
-        const cadastrarCozinha = await cozinhaNova.save()
+        for (const cozinha of cozinhas) {
+            if (cozinha.nome === nome && cozinha.bairro === bairro)
+                return response.status(409).json({
+                    message: "Já existe uma cozinha com este nome neste bairro"
+                })
+        }
 
-        response.status(201).send({
-            message: "Cozinha cadastrada com sucesso!",
-            cadastrarCozinha
+        for (const cozinha of cozinhas) {
+            if (cozinha.cnpj === cozinhaNova.cnpj)
+                return response.status(409).json({
+                    message: "Já existe uma cozinha com este CNPJ"
+                })
+        }
+
+        const salvarCozinha = await cozinhaNova.save()
+
+
+        response.status(201).json({
+            message: `Cozinha criada com sucesso ${salvarCozinha}`
         })
 
     } catch (error) {
 
-        response.status(500).send({
+        response.status(500).json({
+            message: error.message
+        })
+
+    }
+
+
+}
+
+
+
+
+
+const buscarCozinhas = async (request, response) => {
+
+    try {
+
+        const cozinhas = await CozinhaSchema.find()
+
+        response.status(200).json(cozinhas)
+
+    } catch (error) {
+        response.status(500).json({
+            message: error.message
+        })
+
+    }
+
+}
+
+const encontrarCozinha = async (request, response) => {
+
+    try {
+
+        const cozinha = await CozinhaSchema.findById(request.params.id)
+
+        response.status(200).send(cozinha)
+
+    } catch (error) {
+        response.status(500).json({
             message: error.message
         })
     }
@@ -100,62 +97,47 @@ const atualizarCozinha = async (request, response) => {
 
     try {
 
-        
-        CozinhaSchema.findByIdAndUpdate(request.params.id, request.body, function (err, cozinhaAtualizada) {
-            if (err) {
-                response.status(500).send({
-                    message: err.message
-                })
-            }
+        const cozinha = await CozinhaSchema.findById(request.params.id)
 
-            response.status(200).send({
-                message: "Cozinha atualizada!"
-            })
+        cozinha.site = request.body.site || cozinha.site
+
+        const cozinhaAtualizada = await cozinha.save()
+
+        response.status(200).json({
+            message: "Cozinha atualizada com sucesso!"
         })
-    } catch (error) {
 
-        response.status(500).send({
+    } catch (error) {
+        response.status(500).json({
             message: error.message
         })
     }
-
-
-
 
 
 
 }
 
-
-
-
 const deletarCozinha = async (request, response) => {
-
-
-    const acharCozinha = await CozinhaSchema.findById(request.params.id)
-
     try {
+        const cozinha = await CozinhaSchema.findById(request.params.id)
 
-        acharCozinha.delete()
+        cozinha.delete()
 
-        response.status(200).send({
-            message: "Cadastro deletado com sucesso!"
+        response.status(200).json({
+            message: "Cozinha deletada com sucesso"
         })
 
     } catch (error) {
-        response.status(500).send({
+        response.status(500).json({
             message: error.message
         })
-
     }
-
-
-
 }
 
 module.exports = {
     criarCozinha,
-    catalogoDeCozinhas,
-    atualizarCozinha,
-    deletarCozinha
+    buscarCozinhas,
+    encontrarCozinha,
+    deletarCozinha,
+    atualizarCozinha
 }

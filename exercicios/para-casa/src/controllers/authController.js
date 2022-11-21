@@ -1,45 +1,48 @@
-const CozinhasSchema = require("../models/cozinhaSchema")
-const bcrypt = require("bcrypt")
-const jwt = require("jsonwebtoken")
+
+const UserSchema = require('../models/userSchema'); 
+const bcrypt = require('bcrypt'); 
+const jwt = require('jsonwebtoken'); 
+const SECRET = process.env.SECRET; 
 
 
-const SECRET = process.env.SECRET
 
-const login = (request, response) => {
+
+const login = (req, res) => {
     try {
-        CozinhasSchema.findOne({ email: request.body.email }, (error, user) => {
-            if (!user) {
-                return response.status(404).send({
-                    message: "Cadastro não encontrado!",
-                    email: `${request.body.email}`
-                })
-
+        
+        UserSchema.findOne({ email: req.body.email }, (error, user) => {
+            
+            if(!user) {
+                return res.status(404).send({
+                    message: 'Usuário não encontrado',
+                    email: `${req.body.email}`
+                });
             }
+            
 
-            const validarSenha = bcrypt.compareSync(request.body.senha, user.senha)
-
-            if (!validarSenha) {
-                return response.status(401).send({
-                    message: "Senha inválida!"
+            
+            const validPassword = bcrypt.compareSync(req.body.password, user.password)
+            
+            if(!validPassword){
+                return res.status(401).send({
+                message: "Senha inválida!",
+                statusCode: 401
                 })
             }
-
-            const token = jwt.sign({ nome: user.nome }, SECRET)
-
-            response.status(200).send({
+            
+        
+            const token = jwt.sign({name: user.name}, SECRET);
+            
+            res.status(200).send({
                 message: "Login realizado com sucesso!",
                 token
             })
         })
-        
-    } catch (error) {
-        response.status(500).send({
-            message: error.message
-        })
+    } catch(err) {
+        console.error(err)
     }
-}
-
+};
 
 module.exports = {
     login
-}
+};

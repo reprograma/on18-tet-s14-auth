@@ -4,16 +4,21 @@ const app = express()
 
 require("dotenv").config()
 
-const dataBase = require("./config/database")
+const database = require("./config/database")
 const cozinhaRoutes = require("./routes/cozinhaRoutes")
+const userRoutes = require("./routes/userRoutes")
 
-dataBase.connect()
+
+
+database.connect()
 
 app.use(cors())
 app.use(express.json())
-app.use("/cozinhas", cozinhaRoutes)
+app.use("/cozinha", cozinhaRoutes)
+app.use("/usuarios", userRoutes)
 
 module.exports = app
+
 
 
 

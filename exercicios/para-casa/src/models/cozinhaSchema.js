@@ -10,14 +10,6 @@ const cozinhaSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    email: {
-        type: String,
-        required: true
-    },
-    senha: {
-        type: String,
-        required: true
-    },
     iniciativa_privada: {
         type: Boolean
     },
@@ -69,5 +61,5 @@ const cozinhaSchema = new mongoose.Schema({
     }
 }, { timestamps: true })
 
-module.exports = mongoose.model("cozinhas", cozinhaSchema)
+module.exports = mongoose.model("cozinha", cozinhaSchema)
 
