@@ -3,11 +3,11 @@ const mongoose = require('mongoose')
 const bibliotecaSchema = new mongoose.Schema({
 
 
- /* id: {
+  id: {
     type: mongoose.Types.ObjectId,
     default: mongoose.Types.ObjectId,
    
-  },*/
+  },
 
   nome: {
     type: String,
