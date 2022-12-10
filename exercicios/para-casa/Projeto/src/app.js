@@ -9,6 +9,7 @@ require('dotenv').config()
 //Rota da Biblioteca
 const db = require('./database/mongoConfig')
 const bibliotecaRoutes = require('./routes/bibliotecaRoutes')
+const indexRouter = require("./routes/indexRoutes")
 
 //Rota de autenticação
 const bancoAut = require('./config/database')
@@ -21,7 +22,7 @@ bancoAut.conecta()
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
-
+app.use(indexRouter)
 app.use("/bibliotecas",bibliotecaRoutes)
 //Rota de autenticação
 app.use("/users", userRoutes)
