@@ -1,9 +1,9 @@
-const express = require('express');
+const express = require('express')
+const cors = require('cors')
+const app = express()
 
-const app = express();
-const cors = require('cors');
 
-require('dotenv-safe').config()
+//require('dotenv-safe').config()
 require('dotenv').config()
 
 //Rota da Biblioteca
