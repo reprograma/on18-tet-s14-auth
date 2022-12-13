@@ -129,6 +129,7 @@ const criarCozinha = async (request, response) => {
     })
     //filtrei as cozinhas que tem o bairro que a pessoa digitou
     let existeBairro = buscaBairro.filter((cozinha) => cozinha.endereco.bairro === bairro)
+    
     //verifiquei se vai encontrar no array do filter UMA cozinha
     let nomeExisteBairro = existeBairro.find((cozinha) => cozinha.nome === nome)
 
